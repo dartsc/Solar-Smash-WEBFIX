@@ -1,7 +1,9 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // ===== CONFIG =====
-  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // Everything from S3
+  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@main/Build"; // jsDelivr for loader/framework
+  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // S3 for heavy assets
+  const loaderUrl = cdnUrl + "/Build.loader.js";
   const ytApiUrl = "https://www.youtube.com/game_api/v1"; // YT Game API
 
   // ===== CREATE CONTAINER =====
@@ -23,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.style.height = "100%";
   container.appendChild(canvas);
 
-  // ===== CREATE LOADING BAR =====
+  // ===== LOADING BAR =====
   const loadingBar = document.createElement("div");
   loadingBar.id = "unity-loading-bar";
   loadingBar.style.position = "absolute";
@@ -47,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   progressBarFull.style.background = "#4caf50";
   progressBarEmpty.appendChild(progressBarFull);
 
-  // ===== CREATE WARNING BANNER =====
+  // ===== WARNING BANNER =====
   const warningBanner = document.createElement("div");
   warningBanner.id = "unity-warning";
   warningBanner.style.position = "absolute";
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== UNITY CONFIG =====
   const config = {
     dataUrl: s3Url + "/Build.data",
-    frameworkUrl: s3Url + "/Build.framework.js",
+    frameworkUrl: cdnUrl + "/Build.framework.js",
     codeUrl: s3Url + "/Build.wasm",
     DynamicUI: s3Url + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
     UI: s3Url + "/StreamingAssets/AssetBundles/WebGL/ui",
@@ -84,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     planets: s3Url + "/StreamingAssets/AssetBundles/WebGL/planets",
     weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/weapons",
     companyName: "Paradyme Games",
-    productName: "Solar Smash WEBFIX",
+    productName: "Solar Smash FIX",
     productVersion: "0.1.0",
     showBanner: unityShowBanner,
     autoSyncPersistentDataPath: true
@@ -116,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== INITIALIZE UNITY =====
   function InitUnitySection() {
     const script = document.createElement("script");
-    script.src = s3Url + "/Build.loader.js";
+    script.src = loaderUrl;
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = (progress * 100) + "%";
