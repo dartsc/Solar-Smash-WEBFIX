@@ -1,42 +1,39 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // ===== CONFIG =====
-  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com";
-  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-FIX@latest/Build";
-  const assetsCdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@main/StreamingAssets/AssetBundles/WebGL";
+  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // S3 for large assets
+  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-FIX@latest/Build"; // jsDelivr for loader/framework
   const loaderUrl = cdnUrl + "/Build.loader.js";
+  const ytApiUrl = "https://www.youtube.com/game_api/v1"; // YT Game API
 
   // ===== CREATE CONTAINER =====
   const container = document.createElement("div");
   container.id = "unity-container";
-  Object.assign(container.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "100%",
-    height: "100%",
-    background: "#000"
-  });
+  container.style.position = "fixed";
+  container.style.top = "0";
+  container.style.left = "0";
+  container.style.width = "100%";
+  container.style.height = "100%";
+  container.style.background = "#000";
   document.body.appendChild(container);
 
   // ===== CREATE CANVAS =====
   const canvas = document.createElement("canvas");
   canvas.id = "unity-canvas";
   canvas.tabIndex = -1;
-  Object.assign(canvas.style, { width: "100%", height: "100%" });
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
   container.appendChild(canvas);
 
   // ===== CREATE LOADING BAR =====
   const loadingBar = document.createElement("div");
   loadingBar.id = "unity-loading-bar";
-  Object.assign(loadingBar.style, {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "50%",
-    maxWidth: "600px"
-  });
+  loadingBar.style.position = "absolute";
+  loadingBar.style.top = "50%";
+  loadingBar.style.left = "50%";
+  loadingBar.style.transform = "translate(-50%, -50%)";
+  loadingBar.style.width = "50%";
+  loadingBar.style.maxWidth = "600px";
   container.appendChild(loadingBar);
 
   const progressBarEmpty = document.createElement("div");
@@ -47,25 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const progressBarFull = document.createElement("div");
   progressBarFull.id = "unity-progress-bar-full";
-  Object.assign(progressBarFull.style, {
-    width: "0%",
-    height: "20px",
-    background: "#4caf50"
-  });
+  progressBarFull.style.width = "0%";
+  progressBarFull.style.height = "20px";
+  progressBarFull.style.background = "#4caf50";
   progressBarEmpty.appendChild(progressBarFull);
 
   // ===== CREATE WARNING BANNER =====
   const warningBanner = document.createElement("div");
   warningBanner.id = "unity-warning";
-  Object.assign(warningBanner.style, {
-    position: "absolute",
-    top: "0",
-    width: "100%",
-    textAlign: "center",
-    color: "white",
-    background: "red",
-    display: "none"
-  });
+  warningBanner.style.position = "absolute";
+  warningBanner.style.top = "0";
+  warningBanner.style.width = "100%";
+  warningBanner.style.textAlign = "center";
+  warningBanner.style.color = "white";
+  warningBanner.style.background = "red";
+  warningBanner.style.display = "none";
   container.appendChild(warningBanner);
 
   function unityShowBanner(msg, type) {
@@ -83,15 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
     dataUrl: s3Url + "/Build.data",
     frameworkUrl: cdnUrl + "/Build.framework.js",
     codeUrl: s3Url + "/Build.wasm",
-    DynamicUI: assetsCdnUrl + "/dynamic_ui",
-    UI: assetsCdnUrl + "/ui",
-    Localisation: assetsCdnUrl + "/localisation",
-    audio_ui: assetsCdnUrl + "/audio_ui",
-    music: assetsCdnUrl + "/music",
-    fonts: assetsCdnUrl + "/fonts",
-    audio_weapons: assetsCdnUrl + "/audio_weapons",
-    planets: assetsCdnUrl + "/planets",
-    weapons: assetsCdnUrl + "/weapons",
+    DynamicUI: s3Url + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
+    UI: s3Url + "/StreamingAssets/AssetBundles/WebGL/ui",
+    Localisation: s3Url + "/StreamingAssets/AssetBundles/WebGL/localisation",
+    audio_ui: s3Url + "/StreamingAssets/AssetBundles/WebGL/audio_ui",
+    music: s3Url + "/StreamingAssets/AssetBundles/WebGL/music",
+    fonts: s3Url + "/StreamingAssets/AssetBundles/WebGL/fonts",
+    audio_weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/audio_weapons",
+    planets: s3Url + "/StreamingAssets/AssetBundles/WebGL/planets",
+    weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/weapons",
     companyName: "Paradyme Games",
     productName: "Solar Smash FIX",
     productVersion: "0.1.0",
@@ -114,6 +107,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadingBar.style.display = "block";
 
+  // ===== LOAD YT GAME API =====
+  function loadYTGameAPI(callback) {
+    const ytScript = document.createElement("script");
+    ytScript.src = ytApiUrl;
+    ytScript.onload = callback;
+    document.body.appendChild(ytScript);
+  }
+
   // ===== INITIALIZE UNITY =====
   function InitUnitySection() {
     const script = document.createElement("script");
@@ -129,12 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(script);
   }
 
-  // ===== LOAD YOUTUBE GAME API FIRST =====
-  const ytScript = document.createElement("script");
-  ytScript.src = "https://www.youtube.com/game_api/v1";
-  ytScript.onload = () => {
-    InitUnitySection();
-  };
-  document.head.appendChild(ytScript);
+  // ===== START LOADING =====
+  loadYTGameAPI(InitUnitySection);
 });
 </script>
