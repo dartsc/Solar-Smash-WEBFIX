@@ -1,9 +1,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // ===== CONFIG =====
-  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // S3 for large assets
-  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-FIX@latest/Build"; // jsDelivr for loader/framework
-  const loaderUrl = cdnUrl + "/Build.loader.js";
+  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // Everything from S3
   const ytApiUrl = "https://www.youtube.com/game_api/v1"; // YT Game API
 
   // ===== CREATE CONTAINER =====
@@ -74,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== UNITY CONFIG =====
   const config = {
     dataUrl: s3Url + "/Build.data",
-    frameworkUrl: cdnUrl + "/Build.framework.js",
+    frameworkUrl: s3Url + "/Build.framework.js",
     codeUrl: s3Url + "/Build.wasm",
     DynamicUI: s3Url + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
     UI: s3Url + "/StreamingAssets/AssetBundles/WebGL/ui",
@@ -86,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     planets: s3Url + "/StreamingAssets/AssetBundles/WebGL/planets",
     weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/weapons",
     companyName: "Paradyme Games",
-    productName: "Solar Smash FIX",
+    productName: "Solar Smash WEBFIX",
     productVersion: "0.1.0",
     showBanner: unityShowBanner,
     autoSyncPersistentDataPath: true
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== INITIALIZE UNITY =====
   function InitUnitySection() {
     const script = document.createElement("script");
-    script.src = loaderUrl;
+    script.src = s3Url + "/Build.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = (progress * 100) + "%";
