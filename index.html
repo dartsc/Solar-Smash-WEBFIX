@@ -8,31 +8,34 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== CREATE CONTAINER =====
   const container = document.createElement("div");
   container.id = "unity-container";
-  container.style.position = "fixed";
-  container.style.top = "0";
-  container.style.left = "0";
-  container.style.width = "100%";
-  container.style.height = "100%";
-  container.style.background = "#000";
+  Object.assign(container.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    background: "#000"
+  });
   document.body.appendChild(container);
 
   // ===== CREATE CANVAS =====
   const canvas = document.createElement("canvas");
   canvas.id = "unity-canvas";
   canvas.tabIndex = -1;
-  canvas.style.width = "100%";
-  canvas.style.height = "100%";
+  Object.assign(canvas.style, { width: "100%", height: "100%" });
   container.appendChild(canvas);
 
   // ===== CREATE LOADING BAR =====
   const loadingBar = document.createElement("div");
   loadingBar.id = "unity-loading-bar";
-  loadingBar.style.position = "absolute";
-  loadingBar.style.top = "50%";
-  loadingBar.style.left = "50%";
-  loadingBar.style.transform = "translate(-50%, -50%)";
-  loadingBar.style.width = "50%";
-  loadingBar.style.maxWidth = "600px";
+  Object.assign(loadingBar.style, {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    maxWidth: "600px"
+  });
   container.appendChild(loadingBar);
 
   const progressBarEmpty = document.createElement("div");
@@ -43,21 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const progressBarFull = document.createElement("div");
   progressBarFull.id = "unity-progress-bar-full";
-  progressBarFull.style.width = "0%";
-  progressBarFull.style.height = "20px";
-  progressBarFull.style.background = "#4caf50";
+  Object.assign(progressBarFull.style, {
+    width: "0%",
+    height: "20px",
+    background: "#4caf50"
+  });
   progressBarEmpty.appendChild(progressBarFull);
 
   // ===== CREATE WARNING BANNER =====
   const warningBanner = document.createElement("div");
   warningBanner.id = "unity-warning";
-  warningBanner.style.position = "absolute";
-  warningBanner.style.top = "0";
-  warningBanner.style.width = "100%";
-  warningBanner.style.textAlign = "center";
-  warningBanner.style.color = "white";
-  warningBanner.style.background = "red";
-  warningBanner.style.display = "none";
+  Object.assign(warningBanner.style, {
+    position: "absolute",
+    top: "0",
+    width: "100%",
+    textAlign: "center",
+    color: "white",
+    background: "red",
+    display: "none"
+  });
   container.appendChild(warningBanner);
 
   function unityShowBanner(msg, type) {
@@ -121,7 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(script);
   }
 
-  // ===== START LOADING =====
-  InitUnitySection();
+  // ===== LOAD YOUTUBE GAME API FIRST =====
+  const ytScript = document.createElement("script");
+  ytScript.src = "https://www.youtube.com/game_api/v1";
+  ytScript.onload = () => {
+    InitUnitySection();
+  };
+  document.head.appendChild(ytScript);
 });
 </script>
