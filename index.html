@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== CONFIG =====
   const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com";
   const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-FIX@latest/Build";
+  const assetsCdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@main/StreamingAssets/AssetBundles/WebGL";
   const loaderUrl = cdnUrl + "/Build.loader.js";
 
   // ===== CREATE CONTAINER =====
@@ -82,15 +83,15 @@ document.addEventListener("DOMContentLoaded", () => {
     dataUrl: s3Url + "/Build.data",
     frameworkUrl: cdnUrl + "/Build.framework.js",
     codeUrl: s3Url + "/Build.wasm",
-    DynamicUI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
-    UI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/ui",
-    Localisation: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/localisation",
-    audio_ui: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_ui",
-    music: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/music",
-    fonts: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/fonts",
-    audio_weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_weapons",
-    planets: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/planets",
-    weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/weapons",
+    DynamicUI: assetsCdnUrl + "/dynamic_ui",
+    UI: assetsCdnUrl + "/ui",
+    Localisation: assetsCdnUrl + "/localisation",
+    audio_ui: assetsCdnUrl + "/audio_ui",
+    music: assetsCdnUrl + "/music",
+    fonts: assetsCdnUrl + "/fonts",
+    audio_weapons: assetsCdnUrl + "/audio_weapons",
+    planets: assetsCdnUrl + "/planets",
+    weapons: assetsCdnUrl + "/weapons",
     companyName: "Paradyme Games",
     productName: "Solar Smash FIX",
     productVersion: "0.1.0",
