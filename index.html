@@ -1,12 +1,11 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== CONFIG =====
+  
   const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com"; // S3 for data/wasm/assets
   const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest/Build"; // jsDelivr for loader/framework
   const loaderUrl = cdnUrl + "/Build.loader.js";
   const ytApiUrl = "https://www.youtube.com/game_api/v1"; // YT Game API
 
-  // ===== CREATE CONTAINER =====
   const container = document.createElement("div");
   container.id = "unity-container";
   container.style.position = "fixed";
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   container.style.background = "#000";
   document.body.appendChild(container);
 
-  // ===== CREATE CANVAS =====
   const canvas = document.createElement("canvas");
   canvas.id = "unity-canvas";
   canvas.tabIndex = -1;
@@ -25,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.style.height = "100%";
   container.appendChild(canvas);
 
-  // ===== CREATE LOADING BAR =====
   const loadingBar = document.createElement("div");
   loadingBar.id = "unity-loading-bar";
   loadingBar.style.position = "absolute";
@@ -49,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
   progressBarFull.style.background = "#4caf50";
   progressBarEmpty.appendChild(progressBarFull);
 
-  // ===== CREATE WARNING BANNER =====
   const warningBanner = document.createElement("div");
   warningBanner.id = "unity-warning";
   warningBanner.style.position = "absolute";
@@ -71,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== UNITY CONFIG =====
   const config = {
     dataUrl: s3Url + "/Build/Build.data",
     frameworkUrl: cdnUrl + "/Build.framework.js",
@@ -92,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     autoSyncPersistentDataPath: true
   };
 
-  // ===== MOBILE / DESKTOP ADJUSTMENTS =====
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     const meta = document.createElement('meta');
     meta.name = 'viewport';
@@ -107,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadingBar.style.display = "block";
 
-  // ===== LOAD YT GAME API =====
   function loadYTGameAPI(callback) {
     const ytScript = document.createElement("script");
     ytScript.src = ytApiUrl;
@@ -115,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(ytScript);
   }
 
-  // ===== INITIALIZE UNITY =====
   function InitUnitySection() {
     const script = document.createElement("script");
     script.src = loaderUrl;
@@ -130,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(script);
   }
 
-  // ===== START LOADING =====
   loadYTGameAPI(InitUnitySection);
 });
 </script>
