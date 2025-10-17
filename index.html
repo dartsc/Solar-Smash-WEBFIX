@@ -1,128 +1,51 @@
+<script src="https://www.youtube.com/game_api/v1"></script>
+<script src="https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest/Build/Build.loader.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
+  var buildUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest/Build";
+  var streamingAssetsUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest/StreamingAssets";
   
-  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest";
-  const loaderUrl = cdnUrl + "/Build/Build.loader.js";
-  const ytApiUrl = "https://www.youtube.com/game_api/v1";
-
-  const container = document.createElement("div");
-  container.id = "unity-container";
-  container.style.position = "fixed";
-  container.style.top = "0";
-  container.style.left = "0";
-  container.style.width = "100%";
-  container.style.height = "100%";
-  container.style.background = "#000";
-  document.body.appendChild(container);
-
-  const canvas = document.createElement("canvas");
+  var canvas = document.createElement("canvas");
   canvas.id = "unity-canvas";
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   canvas.tabIndex = -1;
-  canvas.style.width = "100%";
-  canvas.style.height = "100%";
-  container.appendChild(canvas);
-
-  const loadingBar = document.createElement("div");
-  loadingBar.id = "unity-loading-bar";
-  loadingBar.style.position = "absolute";
-  loadingBar.style.top = "50%";
-  loadingBar.style.left = "50%";
-  loadingBar.style.transform = "translate(-50%, -50%)";
-  loadingBar.style.width = "50%";
-  loadingBar.style.maxWidth = "600px";
-  container.appendChild(loadingBar);
-
-  const progressBarEmpty = document.createElement("div");
-  progressBarEmpty.id = "unity-progress-bar-empty";
-  progressBarEmpty.style.width = "100%";
-  progressBarEmpty.style.background = "#ccc";
-  loadingBar.appendChild(progressBarEmpty);
-
-  const progressBarFull = document.createElement("div");
-  progressBarFull.id = "unity-progress-bar-full";
-  progressBarFull.style.width = "0%";
-  progressBarFull.style.height = "20px";
-  progressBarFull.style.background = "#4caf50";
-  progressBarEmpty.appendChild(progressBarFull);
-
-  const warningBanner = document.createElement("div");
-  warningBanner.id = "unity-warning";
-  warningBanner.style.position = "absolute";
-  warningBanner.style.top = "0";
-  warningBanner.style.width = "100%";
-  warningBanner.style.textAlign = "center";
-  warningBanner.style.color = "white";
-  warningBanner.style.background = "red";
-  warningBanner.style.display = "none";
-  container.appendChild(warningBanner);
-
-  function unityShowBanner(msg, type) {
-    warningBanner.style.display = "block";
-    warningBanner.textContent = msg;
-    if (type === "error") warningBanner.style.background = "red";
-    if (type === "warning") {
-      warningBanner.style.background = "yellow";
-      warningBanner.style.color = "black";
-    }
-  }
-
-  const config = {
-    dataUrl: cdnUrl + "/Build/Build.data.unityweb",
-    frameworkUrl: cdnUrl + "/Build/Build.framework.js.unityweb",
-    codeUrl: cdnUrl + "/Build/Build.wasm.unityweb",
-    DynamicUI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
-    UI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/ui",
-    Localisation: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/localisation",
-    audio_ui: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_ui",
-    music: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/music",
-    fonts: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/fonts",
-    audio_weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_weapons",
-    planets: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/planets",
-    weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/weapons",
+  document.body.appendChild(canvas);
+  
+  var progressContainer = document.createElement("div");
+  progressContainer.id = "progress-container";
+  progressContainer.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:20px;background:#333;border-radius:10px;overflow:hidden;z-index:1000";
+  document.body.appendChild(progressContainer);
+  
+  var progressBar = document.createElement("div");
+  progressBar.id = "progress-bar";
+  progressBar.style.cssText = "width:0%;height:100%;background:linear-gradient(90deg,#4caf50,#8bc34a);transition:width 0.3s";
+  progressContainer.appendChild(progressBar);
+  
+  var config = {
+    dataUrl: buildUrl + "/Build.data",
+    frameworkUrl: buildUrl + "/Build.framework.js",
+    codeUrl: buildUrl + "/Build.wasm",
+    streamingAssetsUrl: streamingAssetsUrl,
     companyName: "Paradyme Games",
     productName: "Solar Smash FIX",
     productVersion: "0.1.0",
-    showBanner: unityShowBanner,
-    autoSyncPersistentDataPath: true,
-    streamingAssetsUrl: cdnUrl + "/StreamingAssets",
-    compressedFormat: "brotli",
   };
-
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    const meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.head.appendChild(meta);
-    container.className = "unity-mobile";
-    canvas.className = "unity-mobile";
-  } else {
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-  }
-
-  loadingBar.style.display = "block";
-
-  function loadYTGameAPI(callback) {
-    const ytScript = document.createElement("script");
-    ytScript.src = ytApiUrl;
-    ytScript.onload = callback;
-    document.body.appendChild(ytScript);
-  }
-
-  function InitUnitySection() {
-    const script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-      createUnityInstance(canvas, config, (progress) => {
-        progressBarFull.style.width = (progress * 100) + "%";
-      }).then(instance => {
-        window.unityGameInstance = instance;
-        loadingBar.style.display = "none";
-      }).catch(console.error);
-    };
-    document.body.appendChild(script);
-  }
-
-  loadYTGameAPI(InitUnitySection);
+  
+  createUnityInstance(canvas, config, function(progress) {
+    progressBar.style.width = (progress * 100) + "%";
+  }).then(function(unityInstance) {
+    window.unityInstance = unityInstance;
+    progressContainer.style.display = "none";
+    console.log("Unity loaded successfully");
+  }).catch(function(message) {
+    console.error("Unity load failed:", message);
+    progressContainer.innerHTML = '<div style="color:red;text-align:center;padding:5px">Load failed</div>';
+  });
+  
+  window.addEventListener("resize", function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
 });
 </script>
