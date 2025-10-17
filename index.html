@@ -1,9 +1,8 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   
-  const s3Url = "https://solar-smash-webgl.s3.us-east-2.amazonaws.com";
-  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest/Build";
-  const loaderUrl = cdnUrl + "/Build.loader.js";
+  const cdnUrl = "https://cdn.jsdelivr.net/gh/dartsc/Solar-Smash-WEBFIX@latest";
+  const loaderUrl = cdnUrl + "/Build/Build.loader.js";
   const ytApiUrl = "https://www.youtube.com/game_api/v1";
 
   const container = document.createElement("div");
@@ -68,23 +67,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const config = {
-    dataUrl: cdnUrl + "/Build.data.unityweb",
-    frameworkUrl: cdnUrl + "/Build.framework.js.unityweb",
-    codeUrl: cdnUrl + "/Build.wasm.unityweb",
-    DynamicUI: s3Url + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
-    UI: s3Url + "/StreamingAssets/AssetBundles/WebGL/ui",
-    Localisation: s3Url + "/StreamingAssets/AssetBundles/WebGL/localisation",
-    audio_ui: s3Url + "/StreamingAssets/AssetBundles/WebGL/audio_ui",
-    music: s3Url + "/StreamingAssets/AssetBundles/WebGL/music",
-    fonts: s3Url + "/StreamingAssets/AssetBundles/WebGL/fonts",
-    audio_weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/audio_weapons",
-    planets: s3Url + "/StreamingAssets/AssetBundles/WebGL/planets",
-    weapons: s3Url + "/StreamingAssets/AssetBundles/WebGL/weapons",
+    dataUrl: cdnUrl + "/Build/Build.data.unityweb",
+    frameworkUrl: cdnUrl + "/Build/Build.framework.js.unityweb",
+    codeUrl: cdnUrl + "/Build/Build.wasm.unityweb",
+    DynamicUI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/dynamic_ui",
+    UI: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/ui",
+    Localisation: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/localisation",
+    audio_ui: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_ui",
+    music: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/music",
+    fonts: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/fonts",
+    audio_weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/audio_weapons",
+    planets: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/planets",
+    weapons: cdnUrl + "/StreamingAssets/AssetBundles/WebGL/weapons",
     companyName: "Paradyme Games",
     productName: "Solar Smash FIX",
     productVersion: "0.1.0",
     showBanner: unityShowBanner,
-    autoSyncPersistentDataPath: true
+    autoSyncPersistentDataPath: true,
+    streamingAssetsUrl: cdnUrl + "/StreamingAssets",
   };
 
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
