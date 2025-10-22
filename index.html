@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
     document.head.appendChild(meta);
     try {
-        await loadExternalScript('https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/ytgame.js');
+        await loadExternalScript('https://cdn.jsdelivr.net/gh/dartsc/ytgames@refs/heads/main/ytgames.js');
     } catch (e) {
         console.warn('Failed to load ytgame.js:', e);
         window.ytgame = window.ytgame || {
